@@ -1,0 +1,19 @@
+{
+    "name": "masterdmx/laravel-snippets",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sergey Krening",
+            "email": "masterdmx3325@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "MasterDmx\\LaravelSnippets\\": "src/"
+        }
+    },
+    "version": "1.0.0",
+    "minimum-stability": "dev",
+    "require": {}
+}
