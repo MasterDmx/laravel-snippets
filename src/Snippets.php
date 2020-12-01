@@ -4,7 +4,7 @@ namespace MasterDmx\LaravelSnippets;
 
 use ErrorException;
 
-class Snipets
+class Snippets
 {
     /**
      * Сниппеты

@@ -4,7 +4,7 @@ namespace MasterDmx\LaravelSnippets;
 
 use Illuminate\Support\ServiceProvider;
 
-class SnipetsServiceProvider extends ServiceProvider
+class SnippetsServiceProvider extends ServiceProvider
 {
 
     public function boot()
@@ -15,8 +15,8 @@ class SnipetsServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom( __DIR__.'/../config/snippets.php', 'snippets');
 
-        $this->app->singleton(Snipets::class, function () {
-            return new Snipets();
+        $this->app->singleton(Snippets::class, function () {
+            return new Snippets();
         });
     }
 }
