@@ -39,7 +39,7 @@ return [
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use MasterDmx\LaravelSnippets\Traits\Eloquent\HasSnippets;
+use MasterDmx\LaravelSnippets\Traits\HasSnippets;
 
 /**
  * @property string $title
@@ -52,12 +52,12 @@ class Post extends Model
 
     public function applySnippets(): static
     {
-        $this->applySnippetsPresetsFor(['title', 'annotation'], 'global');
-        $this->applySnippetsPresetsFor('content', ['global', 'tinymce']);
+        $this->applySnippetsPresetsForAttributes(['title', 'annotation'], 'global');
+        $this->applySnippetsPresetsForAttributes('content', ['global', 'tinymce']);
 
         // OR
 
-        $this->applySnippetsFor(['title', 'annotation'], [
+        $this->applySnippetsForAttributes(['title', 'annotation'], [
             \App\View\Snippets\CurrentYear::class,
         ]);
         

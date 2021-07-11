@@ -1,6 +1,6 @@
 <?php
 
-namespace MasterDmx\LaravelSnippets\Traits\Eloquent;
+namespace MasterDmx\LaravelSnippets\Traits;
 
 use Illuminate\Support\Collection;
 use MasterDmx\LaravelSnippets\Snippets;
@@ -18,7 +18,7 @@ trait HasSnippets
      *
      * @return $this
      */
-    protected function applySnippetsPresetsFor(string|array|Collection $attributes, string|array|Collection $presets): static
+    protected function applySnippetsPresetsForAttributes(string|array|Collection $attributes, string|array|Collection $presets): static
     {
         if (is_string($attributes)){
             $attributes = explode(',', $attributes);
@@ -41,7 +41,7 @@ trait HasSnippets
      *
      * @return $this
      */
-    protected function applySnippetsFor(string|array|Collection $attributes, string|array|Collection $snippets): static
+    protected function applySnippetsForAttributes(string|array|Collection $attributes, string|array|Collection $snippets): static
     {
         if (is_string($attributes)){
             $attributes = explode(',', $attributes);

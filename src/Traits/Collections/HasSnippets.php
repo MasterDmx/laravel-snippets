@@ -1,6 +1,6 @@
 <?php
 
-namespace MasterDmx\LaravelSnippets\Traits\Eloquent\Collections;
+namespace MasterDmx\LaravelSnippets\Traits\Collections;
 
 trait HasSnippets
 {
@@ -11,8 +11,6 @@ trait HasSnippets
      */
     public function applySnippets(): static
     {
-        $this->map(fn ($model) => $model->applySnippets());
-
-        return $this;
+        return $this->map(fn ($model) => $model->applySnippets());
     }
 }
