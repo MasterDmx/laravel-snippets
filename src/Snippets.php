@@ -24,11 +24,11 @@ class Snippets
     private array $singleton = [];
 
     /**
-     * Сниппеты
+     * Пресеты
      *
      * @var Snippet[]
      */
-    private array $groups = [];
+    private array $presets = [];
 
     /**
      * Возвращает объект сниппета
@@ -82,7 +82,7 @@ class Snippets
      *
      * @return string
      */
-    public function applyGroupTo(string $text, string|array|Collection $groups): string
+    public function applyPresetTo(string $text, string|array|Collection $groups): string
     {
         $snippets = [];
 
@@ -91,8 +91,8 @@ class Snippets
         }
 
         foreach ($groups as $group){
-            if (!empty($this->groups[$group])){
-                foreach ($this->groups[$group] as $class){
+            if (!empty($this->presets[$group])){
+                foreach ($this->presets[$group] as $class){
                     $snippets[$class] = $class;
                 }
             }
@@ -107,8 +107,8 @@ class Snippets
      * @param string $name
      * @param array  $snippets
      */
-    public function addGroup(string $name, array $snippets)
+    public function addPreset(string $name, array $snippets)
     {
-        $this->groups[$name] = $snippets;
+        $this->presets[$name] = $snippets;
     }
 }

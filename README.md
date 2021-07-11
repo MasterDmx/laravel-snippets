@@ -17,11 +17,11 @@ php artisan vendor:publish --provider="MasterDmx\LaravelSnippets\SnippetsService
 
 ## Использование
 
-### Регистрация сниппетов для использования групп в конфиге `snippets.php`
+### Регистрация сниппетов для использования пресетов в конфиге `snippets.php`
 
 ```php
 return [
-    'groups' => [
+    'presets' => [
         'global' => [
             \App\View\Snippets\CurrentYear::class,
         ],
@@ -52,8 +52,8 @@ class Post extends Model
 
     public function applySnippets(): static
     {
-        $this->applySnippetsGroupFor(['title', 'annotation'], 'global');
-        $this->applySnippetsGroupFor('content', ['global', 'tinymce']);
+        $this->applySnippetsPresetsFor(['title', 'annotation'], 'global');
+        $this->applySnippetsPresetsFor('content', ['global', 'tinymce']);
 
         // OR
 

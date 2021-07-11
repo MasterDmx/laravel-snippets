@@ -15,9 +15,9 @@ class SnippetsServiceProvider extends ServiceProvider
         /** @var Snippets $snippets */
         $snippets = $this->app->get(Snippets::class);
 
-        foreach (config('snippets.groups', []) as $name => $classes){
+        foreach (config('snippets.presets', []) as $name => $classes){
             if (is_array($classes)){
-                $snippets->addGroup($name, $classes);
+                $snippets->addPreset($name, $classes);
             }
         }
     }

@@ -1,8 +1,8 @@
 <?php
 
 return [
-    'groups' => [
-        // 'group_name' => [
+    'presets' => [
+        // 'preset_name' => [
         //     \App\View\Snippets\Snippet::class,
         // ],
     ],

@@ -14,11 +14,11 @@ trait HasSnippets
      * Применяет группы сниппетов для одного или нескольких аттрибутов модели
      *
      * @param string|array|Collection $attributes
-     * @param string|array|Collection $groups
+     * @param string|array|Collection $presets
      *
      * @return $this
      */
-    protected function applySnippetsGroupFor(string|array|Collection $attributes, string|array|Collection $groups): static
+    protected function applySnippetsPresetsFor(string|array|Collection $attributes, string|array|Collection $presets): static
     {
         if (is_string($attributes)){
             $attributes = explode(',', $attributes);
@@ -26,7 +26,7 @@ trait HasSnippets
 
         foreach ($attributes as $attribute){
             if (isset($this->$attribute)){
-                $this->$attribute = $this->snippets()->applyGroupTo($this->$attribute, $groups);
+                $this->$attribute = $this->snippets()->applyPresetTo($this->$attribute, $presets);
             }
         }
 
