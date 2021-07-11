@@ -1,6 +1,6 @@
 <?php
 
-namespace MasterDmx\LaravelSnippets\Traits\Eloquent\Collection;
+namespace MasterDmx\LaravelSnippets\Traits\Eloquent\Collections;
 
 trait HasSnippets
 {
