@@ -1,0 +1,23 @@
+{
+    "name": "masterdmx/laravel-snippets",
+    "description": "Automatic replacement of snippets in text",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sergey Krening",
+            "email": "masterdmx3325@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "MasterDmx\\LaravelSnippets\\": "src/"
+        }
+    },
+    "version": "1.0.0",
+    "minimum-stability": "stable",
+    "require": {
+        "php": "^8.0",
+        "laravel/framework": "^7.0|^8.0"
+    }
+}
