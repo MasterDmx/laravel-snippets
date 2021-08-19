@@ -73,7 +73,9 @@ trait HasSnippets
             }
 
             foreach ($this->snippetsConfigurator->replacers[$replacer::class] as $attribute){
-                $this->$attribute = $this->snippets()->applyReplacerTo($this->$attribute, $replacer);
+                if (isset($this->$attribute)) {
+                    $this->$attribute = $this->snippets()->applyReplacerTo($this->$attribute, $replacer);
+                }
             }
         }
     }
