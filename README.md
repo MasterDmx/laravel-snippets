@@ -40,6 +40,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use MasterDmx\LaravelSnippets\Traits\HasSnippets;
+use MasterDmx\LaravelSnippets\SnippetsConfigurator;
+use App\View\Snippets\GeoReplacer;
 
 /**
  * @property string $title
@@ -50,22 +52,12 @@ class Post extends Model
 {
     use HasSnippets;
 
-    public function applySnippets(): static
+    public function snippetsSettings(SnippetsConfigurator $snippets): void
     {
-        $this->applySnippetsPresetsForAttributes(['title', 'annotation'], 'global');
-        $this->applySnippetsPresetsForAttributes('content', ['global', 'tinymce']);
-
-        // OR
-
-        $this->applySnippetsForAttributes(['title', 'annotation'], [
-            \App\View\Snippets\CurrentYear::class,
-        ]);
-        
-        // OR
-        
-        $this->title = $this->snippets()->applyTo($this->title, \App\View\Snippets\CurrentYear::class);
-
-        return $this;
+        $snippets->bind(\App\View\Snippets\CurrentYear::class, 'title');
+        $snippets->bind(\App\View\Snippets\CurrentDay::class, ['title', 'meta_title']);
+        $snippets->bindPreset('global', 'meta_title');
+        $snippets->bindReplacer(\App\View\Snippets\GeoReplacer::class, 'title');
     }
 }
 ```

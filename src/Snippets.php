@@ -3,6 +3,7 @@
 namespace MasterDmx\LaravelSnippets;
 
 use Illuminate\Support\Collection;
+use MasterDmx\LaravelSnippets\Contracts\Replacer;
 use MasterDmx\LaravelSnippets\Exceptions\InvalidSnippetException;
 use MasterDmx\LaravelSnippets\Exceptions\SnippetNotFoundException;
 use MasterDmx\LaravelSnippets\Exceptions\UndefinedPresetAliasException;
@@ -99,6 +100,19 @@ class Snippets
         }
 
         return !empty($snippets) ? $this->applyTo($text, $snippets) : $text;
+    }
+
+    /**
+     * Применяет реплейсеры из $snippets к тексту $text и возвращает измененный текст
+     *
+     * @param string                  $text
+     * @param Replacer $replacer
+     *
+     * @return string
+     */
+    public function applyReplacerTo(string $text, Replacer $replacer): string
+    {
+        return $replacer->replace($text);
     }
 
     /**

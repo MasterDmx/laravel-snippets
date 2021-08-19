@@ -3,57 +3,91 @@
 namespace MasterDmx\LaravelSnippets\Traits;
 
 use Illuminate\Support\Collection;
+use MasterDmx\LaravelSnippets\Contracts\Replacer;
+use MasterDmx\LaravelSnippets\Exceptions\MissSettingsForReplacerException;
 use MasterDmx\LaravelSnippets\Snippets;
+use MasterDmx\LaravelSnippets\SnippetsConfigurator;
 use function app;
 
 trait HasSnippets
 {
-    abstract public function applySnippets(): static;
+    protected SnippetsConfigurator $snippetsConfigurator;
+
+    abstract protected function snippetsSettings(SnippetsConfigurator $snippets);
 
     /**
-     * Применяет группы сниппетов для одного или нескольких аттрибутов модели
-     *
-     * @param string|array|Collection $attributes
-     * @param string|array|Collection $presets
+     * Применяет все сниппеты
      *
      * @return $this
      */
-    protected function applySnippetsPresetsForAttributes(string|array|Collection $attributes, string|array|Collection $presets): static
+    public function applySnippets(array|Replacer|null $replacers = null): static
     {
-        if (is_string($attributes)){
-            $attributes = explode(',', $attributes);
+        $this->initConfiguration();
+
+        // Сниппеты
+        if(isset($this->snippetsConfigurator->snippets)) {
+            foreach ($this->snippetsConfigurator->snippets as $snippet => $attributes){
+                foreach ($attributes as $attribute) {
+                    if (isset($this->$attribute)) {
+                        $this->$attribute = $this->snippets()->applyTo($this->$attribute, $snippet);
+                    }
+                }
+            }
         }
 
-        foreach ($attributes as $attribute){
-            if (isset($this->$attribute)){
-                $this->$attribute = $this->snippets()->applyPresetTo($this->$attribute, $presets);
+        // Пресеты
+        if(isset($this->snippetsConfigurator->presets)) {
+            foreach ($this->snippetsConfigurator->presets as $preset => $attributes){
+                foreach ($attributes as $attribute) {
+                    if (isset($this->$attribute)) {
+                        $this->$attribute = $this->snippets()->applyPresetTo($this->$attribute, $preset);
+                    }
+                }
             }
+        }
+
+        // Реплейсеры
+        if (isset($replacers)) {
+            $this->applyReplacer($replacers);
         }
 
         return $this;
     }
 
     /**
-     * Применяет один или несколько сниппетов для одного или нескольких аттрибутов модели
+     * Применяет реплейсеры
      *
-     * @param string|array|Collection $attributes
-     * @param string|array|Collection $snippets
-     *
-     * @return $this
+     * @param array|Replacer $replacers
      */
-    protected function applySnippetsForAttributes(string|array|Collection $attributes, string|array|Collection $snippets): static
+    public function applyReplacer(array|Replacer $replacers)
     {
-        if (is_string($attributes)){
-            $attributes = explode(',', $attributes);
+        $this->initConfiguration();
+
+        if (!is_array($replacers)) {
+            $replacers = [$replacers];
         }
 
-        foreach ($attributes as $attribute){
-            if (isset($this->$attribute)){
-                $this->$attribute = $this->snippets()->applyTo($this->$attribute, $snippets);
+        foreach ($replacers as $replacer) {
+            if (!isset($this->snippetsConfigurator->replacers[$replacer::class])) {
+                throw new MissSettingsForReplacerException('Settings for ' . $replacer::class . ' is missing');
+            }
+
+            foreach ($this->snippetsConfigurator->replacers[$replacer::class] as $attribute){
+                $this->$attribute = $this->snippets()->applyReplacerTo($this->$attribute, $replacer);
             }
         }
+    }
 
-        return $this;
+    /**
+     * Инициализирует настройки сниппетов
+     */
+    protected function initConfiguration(): void
+    {
+        if (!isset($this->snippetsConfigurator)) {
+            $configurator = app(SnippetsConfigurator::class);
+            $this->snippetsSettings($configurator);
+            $this->snippetsConfigurator = $configurator;
+        }
     }
 
     /**
